@@ -1,6 +1,14 @@
 ﻿public class Solution
 {
-    //Problem no.3110
+    //  Problem no.3110
+    /*  Feedback is that
+
+        string.Length is actually a property backed by a field inside the string object.
+        Accessing it is O(1) (constant-time), not a loop or a recalculation.
+        The JIT compiler often optimizes it away in loops so it doesn’t fetch it repeatedly.
+    
+    */
+
     public static int ScoreOfString(string s)
     {
         int l = s.Length;
@@ -11,6 +19,17 @@
         }
         return sum;
     }
+
+    public static IList<int> FindWordsContaining(string[] words, char x)
+    {
+        List<int> ints = new List<int>();
+        for (int i = 0; i < words.Length; i++)
+        {
+            if (words[i].Contains(x))
+                ints.Add(i);
+        }
+        return ints;
+    }
 }
 
 class Program
@@ -19,10 +38,18 @@ class Program
     {
 
         //Problem no.3110
-        Console.WriteLine("Problem #3110");
+        Console.WriteLine("\n\nProblem #3110");
         Console.WriteLine();
         Console.WriteLine($"{Solution.ScoreOfString("hello")} == 13");
         Console.WriteLine($"{Solution.ScoreOfString("zaz")} == 50");
-        
+
+        //Problem no.2942
+        Console.WriteLine("\n\nProblem #2942");
+        Console.WriteLine();
+        IList<int> solution1 = Solution.FindWordsContaining(["leet", "code"], 'e');
+        IList<int> solution2 = Solution.FindWordsContaining(["abc", "bcd", "aaaa", "cbc"], 'a');
+
+        Console.WriteLine("[" + string.Join(",", solution1) + "] == [0,1]");
+        Console.WriteLine("[" + string.Join(",", solution2) + "] == [0,2]");
     }
 }
