@@ -19,7 +19,7 @@
         }
         return sum;
     }
-
+    //Problem no.2942
     public static IList<int> FindWordsContaining(string[] words, char x)
     {
         List<int> ints = new List<int>();
@@ -29,6 +29,17 @@
                 ints.Add(i);
         }
         return ints;
+    }
+    //Problem no.1108
+    public static string DefangIPaddr(string address)
+    {
+        address.Replace(".", "[.]");
+        return address;
+    }
+    //Problem no.3274
+    public static bool CheckTwoChessboards(string coordinate1, string coordinate2) {
+        return (coordinate1[0] % 2 == coordinate1[1] % 2) ==
+        (coordinate2[0] % 2 == coordinate2[1] % 2);
     }
 }
 
@@ -51,5 +62,18 @@ class Program
 
         Console.WriteLine("[" + string.Join(",", solution1) + "] == [0,1]");
         Console.WriteLine("[" + string.Join(",", solution2) + "] == [0,2]");
+
+        //Problem no.1108
+        Console.WriteLine("\n\nProblem #1108");
+        Console.WriteLine();
+        Console.WriteLine($"{Solution.DefangIPaddr("1.1.1.1")} == 1[.]1[.]1[.]1");
+        Console.WriteLine($"{Solution.DefangIPaddr("255.100.50.0")} == 255[.]100[.]50[.]0");
+
+        //Problem no.3274
+        Console.WriteLine("\n\nProblem #3274");
+        Console.WriteLine();
+        Console.WriteLine($"{Solution.CheckTwoChessboards("a1", "c3")} == True");
+        Console.WriteLine($"{Solution.CheckTwoChessboards("a1", "h3")} == False");
+    
     }
 }
