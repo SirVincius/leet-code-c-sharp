@@ -51,6 +51,7 @@ public class SolutionString
 
 public class SolutionArray
 {
+    //Problem no.1512
     public static int NumIdenticalPairs(int[] nums)
     {
         int numbreOfGoodPairs = 0;
@@ -63,6 +64,60 @@ public class SolutionArray
             }
         }
         return numbreOfGoodPairs;
+    }
+    //Problem no.3467
+    public static int[] TransformArray(int[] nums)
+    {
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] % 2 == 0)
+                nums[i] = 0;
+            if (nums[i] % 2 == 1)
+                nums[i] = 1;
+        }
+        Array.Sort(nums);
+        return nums;
+    }
+    //Problem no.2656
+    public static int MaximizeSum(int[] nums, int k)
+    {
+        int max;
+        int sum = 0;
+        int index;
+        for (int i = 0; i < k; i++)
+        {
+            max = nums.Max();
+            sum += max;
+            index = Array.IndexOf(nums, max);
+            nums[index] = max + 1;
+        }
+        return sum;
+    }
+    //Problem no.2558
+    public static long PickGifts(int[] gifts, int k)
+    {
+        int max;
+        int index;
+        for (int i = 0; i < k; i++)
+        {
+            max = gifts.Max();
+            index = Array.IndexOf(gifts, max);
+            gifts[index] = (int)Math.Floor(Math.Sqrt(max));
+        }
+        return gifts.Sum();
+    }
+    //Problem no.575
+    public static int DistributeCandies(int[] candyType)
+    {
+        int numberToEat = candyType.Length / 2;
+        int differentTypeOfCandies = 1;
+        Array.Sort(candyType);
+        for (int i = 0; i < candyType.Length - 1; i++)
+        {
+            if (candyType[i] != candyType[i + 1])
+                differentTypeOfCandies++;
+        }
+        return numberToEat <= differentTypeOfCandies ? numberToEat : differentTypeOfCandies;
     }
 }
 
@@ -103,6 +158,31 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{SolutionArray.NumIdenticalPairs([1, 2, 3, 1, 1, 3])} = 4");
         Console.WriteLine($"{SolutionArray.NumIdenticalPairs([1, 1, 1, 1])} = 6");
-        Console.WriteLine($"{SolutionArray.NumIdenticalPairs([1,2,3])} = 0");
+        Console.WriteLine($"{SolutionArray.NumIdenticalPairs([1, 2, 3])} = 0");
+
+        //Problem no.3467
+        Console.WriteLine("\n\nProblem #3467");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.TransformArray([4, 3, 2, 1])} = [0,0,1,1]");
+        Console.WriteLine($"{SolutionArray.TransformArray([1, 5, 1, 4, 2])} = [0,0,1,1,1]");
+
+        //Problem no.2656
+        Console.WriteLine("\n\nProblem #2656");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.MaximizeSum([1, 2, 3, 4, 5], 3)} = 18");
+        Console.WriteLine($"{SolutionArray.MaximizeSum([5, 5, 5], 2)} = 11");
+
+        //Problem no.2558
+        Console.WriteLine("\n\nProblem #2558");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.PickGifts([25, 64, 9, 4, 100], 4)} = 29");
+        Console.WriteLine($"{SolutionArray.PickGifts([1, 1, 1, 1], 4)} = 4");
+
+        //Problem no.575
+        Console.WriteLine("\n\nProblem #2558");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 2, 3, 3])} = 3");
+        Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 3])} = 2");
+        Console.WriteLine($"{SolutionArray.DistributeCandies([6,6,6,6])} = 1");
     }
 }
