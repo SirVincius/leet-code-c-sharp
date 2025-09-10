@@ -165,6 +165,24 @@ public class SolutionArray
         //Added return true because compiler says that not all path return a value
         //To be verified as I don't see a path where no value is returned
     }
+    //Problem no.1769
+    public static int[] MinOperations(string boxes)
+    {
+        int[] answer = new int[boxes.Length];
+        int sum = 0;
+        for (int i = 0; i < boxes.Length; i++)
+        {
+            for (int j = 0; j < boxes.Length; j++)
+            {
+                if (boxes[j] == '1')
+                    sum += Math.Abs(j - i);
+                
+            }
+            answer[i] = sum;
+            sum = 0;
+        }
+        return answer;
+    }
 }
 
 class Program
@@ -237,11 +255,17 @@ class Program
         Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([1, 4, 3, 3, 2])} = 2");
         Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3, 3, 3, 3])} = 1");
         Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3, 2, 1])} = 3");
-        
+
         //Problem no.3046
         Console.WriteLine("\n\nProblem #3046");
         Console.WriteLine();
-        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1,1,2,2,3,4])} = True");
-        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1,1,1,1])} = False");
+        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1, 1, 2, 2, 3, 4])} = True");
+        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1, 1, 1, 1])} = False");
+        
+        //Problem no.1769
+        Console.WriteLine("\n\nProblem #1769");
+        Console.WriteLine();
+        Console.WriteLine($"[{string.Join(",", SolutionArray.MinOperations("110"))}] = [1,1,3]");
+        Console.WriteLine($"[{string.Join(",", SolutionArray.MinOperations("001011"))}] = [11,8,5,4,3,4]");
     }
 }
