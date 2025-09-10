@@ -119,6 +119,36 @@ public class SolutionArray
         }
         return numberToEat <= differentTypeOfCandies ? numberToEat : differentTypeOfCandies;
     }
+    //Problem no.3105
+    public static int LongestMonotonicSubarray(int[] nums)
+    {
+        if (nums.Length == 1)
+            return 1;
+        int longestStreak = 1;
+        int longestIncrease = 1;
+        int longestDecrease = 1;
+
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] > nums[i - 1])
+            {
+                longestIncrease++;
+                longestDecrease = 1;
+            }
+            if (nums[i] < nums[i - 1])
+            {
+                longestDecrease++;
+                longestIncrease = 1;
+            }
+            if (nums[i] == nums[i - 1])
+            {
+                longestIncrease = 1;
+                longestDecrease = 1;
+            }
+            longestStreak = Math.Max(longestStreak, Math.Max(longestIncrease, longestDecrease));
+        }
+        return longestStreak;
+    }
 }
 
 class Program
@@ -153,7 +183,7 @@ class Program
         Console.WriteLine($"{SolutionString.CheckTwoChessboards("a1", "c3")} == True");
         Console.WriteLine($"{SolutionString.CheckTwoChessboards("a1", "h3")} == False");
 
-        //Problem no.1512
+        //Problem no.1512DistributeCandies
         Console.WriteLine("\n\nProblem #1512");
         Console.WriteLine();
         Console.WriteLine($"{SolutionArray.NumIdenticalPairs([1, 2, 3, 1, 1, 3])} = 4");
@@ -179,10 +209,17 @@ class Program
         Console.WriteLine($"{SolutionArray.PickGifts([1, 1, 1, 1], 4)} = 4");
 
         //Problem no.575
-        Console.WriteLine("\n\nProblem #2558");
+        Console.WriteLine("\n\nProblem #575");
         Console.WriteLine();
         Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 2, 3, 3])} = 3");
         Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 3])} = 2");
-        Console.WriteLine($"{SolutionArray.DistributeCandies([6,6,6,6])} = 1");
+        Console.WriteLine($"{SolutionArray.DistributeCandies([6, 6, 6, 6])} = 1");
+        
+        //Problem no.3105
+        Console.WriteLine("\n\nProblem #3105");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([1,4,3,3,2])} = 2");
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3,3,3,3])} = 1");
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3,2,1])} = 3");
     }
 }
