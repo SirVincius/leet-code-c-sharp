@@ -149,6 +149,22 @@ public class SolutionArray
         }
         return longestStreak;
     }
+    //Problem no.3046
+    public static bool IsPossibleToSplit(int[] nums)
+    {
+        Array.Sort(nums);
+        for (int i = 1; i < nums.Length - 1; i++)
+        {
+            if ((i + 1) >= nums.Length)
+                return true;
+            if (nums[i - 1] == nums[i] && nums[i] == nums[i + 1])
+                return false;
+        }
+        return true;
+        //TODO
+        //Added return true because compiler says that not all path return a value
+        //To be verified as I don't see a path where no value is returned
+    }
 }
 
 class Program
@@ -214,12 +230,18 @@ class Program
         Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 2, 3, 3])} = 3");
         Console.WriteLine($"{SolutionArray.DistributeCandies([1, 1, 2, 3])} = 2");
         Console.WriteLine($"{SolutionArray.DistributeCandies([6, 6, 6, 6])} = 1");
-        
+
         //Problem no.3105
         Console.WriteLine("\n\nProblem #3105");
         Console.WriteLine();
-        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([1,4,3,3,2])} = 2");
-        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3,3,3,3])} = 1");
-        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3,2,1])} = 3");
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([1, 4, 3, 3, 2])} = 2");
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3, 3, 3, 3])} = 1");
+        Console.WriteLine($"{SolutionArray.LongestMonotonicSubarray([3, 2, 1])} = 3");
+        
+        //Problem no.3046
+        Console.WriteLine("\n\nProblem #3046");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1,1,2,2,3,4])} = True");
+        Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1,1,1,1])} = False");
     }
 }
