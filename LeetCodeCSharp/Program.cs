@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 public class SolutionString
 {
@@ -309,7 +311,7 @@ public class SolutionArray
 
 public class SolutionMath
 {
-    //Problem 2894
+    //Problem #2894
     public static int DifferenceOfSums(int n, int m)
     {
         int divisible = 0;
@@ -324,18 +326,79 @@ public class SolutionMath
         return notDivisible - divisible;
     }
 
-    //Problem 2769
+    //Problem #2769
     public static int TheMaximumAchievableX(int num, int t)
     {
         return num + (t * 2);
     }
-    //Problem 2469
+    //Problem #2469
     public static double[] ConvertTemperature(double celsius)
     {
         double kelvin = celsius + 273.15;
         double fahrenheit = celsius * 1.80 + 32.00;
         double[] convertedTemperatures = { kelvin, fahrenheit };
         return convertedTemperatures;
+    }
+    //Problem #1512
+    public static int NumIdenticalPairs(int[] nums)
+    {
+        int numberOfGoodPairs = 0;
+        for (int i = 0; i < nums.Length - 1; i++)
+        {
+            for (int j = i + 1; j < nums.Length; j++)
+            {
+                if (nums[i] == nums[j] && i < j)
+                    numberOfGoodPairs++;
+            }
+        }
+        return numberOfGoodPairs;
+    }
+    //Problem #3602
+    public static string ConcatHex36(int n) {
+        string decimalToHexadecimal(int number)
+        {
+            string numberInDecimal = "";
+            int highestPower16 = 0;
+            char[] conversionCharacters =
+            {
+                    '0', '1', '2', '3', '4', '5', '6', '7',
+                    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+                };
+            while (Math.Pow(16, highestPower16) <= number)
+                highestPower16++;
+            highestPower16--;
+            while (number > 0)
+            {
+                numberInDecimal = numberInDecimal + (conversionCharacters[number / (int)Math.Pow(16, highestPower16)]);
+                number %= (int)Math.Pow(16, highestPower16);
+                highestPower16--;
+            }
+            return numberInDecimal;
+        }
+
+        string decimalToHexatrigesimal(int number)
+        {
+            string numberInDecimal = "";
+            int highestPower36 = 0;
+            char[] conversionCharacters =
+            {
+                    '0','1','2','3','4','5','6','7','8','9',
+                    'A','B','C','D','E','F','G','H','I','J',
+                    'K','L','M','N','O','P','Q','R','S','T',
+                    'U','V','W','X','Y','Z'
+                };
+            while (Math.Pow(36, highestPower36) <= number)
+                highestPower36++;
+            highestPower36--;
+            while (number > 0)
+            {
+                numberInDecimal = numberInDecimal + (conversionCharacters[number / (int)Math.Pow(36, highestPower36)]);
+                number %= (int)Math.Pow(36, highestPower36);
+                highestPower36--;
+            }
+            return numberInDecimal;
+        }
+            return decimalToHexadecimal((int)Math.Pow(n, 2)) + decimalToHexatrigesimal((int)Math.Pow(n, 3));
     }
 }
 
@@ -474,5 +537,19 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{Utilities.printArray(SolutionMath.ConvertTemperature(36.50))} = [309.65000,97.70000]");
         Console.WriteLine($"{Utilities.printArray(SolutionMath.ConvertTemperature(122.11))} = [395.26000,251.79800]");
+
+        //Problem no.1512
+        Console.WriteLine("\n\nProblem #1512");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.NumIdenticalPairs([1, 2, 3, 1, 1, 3])} = 4");
+        Console.WriteLine($"{SolutionMath.NumIdenticalPairs([1, 1, 1, 1])} = 6");
+        Console.WriteLine($"{SolutionMath.NumIdenticalPairs([1, 2, 3])} = 0");
+
+        //Problem no.3602
+        Console.WriteLine("\n\nProblem #3602");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.ConcatHex36(13)} = 'A91P1'");
+        Console.WriteLine($"{SolutionMath.ConcatHex36(36)} = '5101000'");
+        
     }
 }
