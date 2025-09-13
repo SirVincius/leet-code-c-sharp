@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 public class SolutionString
 {
@@ -176,12 +177,173 @@ public class SolutionArray
             {
                 if (boxes[j] == '1')
                     sum += Math.Abs(j - i);
-                
+
             }
             answer[i] = sum;
             sum = 0;
         }
         return answer;
+    }
+    //Problem no.2391
+    public static int GarbageCollection(string[] garbage, int[] travel)
+    {
+        int numberOfUnits(string garbage, char typeOfGarbage)
+        {
+            int totalUnits = 0;
+            foreach (char c in garbage)
+            {
+                if (c == typeOfGarbage)
+                    totalUnits++;
+            }
+            return totalUnits;
+        }
+
+        int totalNumberOfUnits(string[] garbage, char typeOfGarbage)
+        {
+            int totalUnits = 0;
+            foreach (string s in garbage)
+            {
+                totalUnits += numberOfUnits(s, typeOfGarbage);
+            }
+            return totalUnits;
+        }
+
+        int farthestIndex(string[] garbage, char typeOfGarbage)
+        {
+            int farthestIndex = 0;
+            for (int i = 0; i < garbage.Length; i++)
+            {
+                if (garbage[i].Contains(typeOfGarbage))
+                    farthestIndex = i;
+            }
+            return farthestIndex;
+        }
+
+        int numberOfMinuteNeeded(int[] travel, int unitTotal, int farthestIndex)
+        {
+            int sum = 0;
+            for (int i = 0; i < farthestIndex; i++)
+            {
+                sum += travel[i];
+            }
+            sum += unitTotal;
+            return sum;
+        }
+
+
+        int totalM = 0, totalP = 0, totalG = 0;
+        int farthestM = 0, farthestG = 0, farthestP = 0;
+        int numberOfMinuteM = 0, numberOfMinuteG = 0, numberOfMinuteP = 0;
+
+        totalM = totalNumberOfUnits(garbage, 'M');
+        totalP = totalNumberOfUnits(garbage, 'P');
+        totalG = totalNumberOfUnits(garbage, 'G');
+
+        farthestM = farthestIndex(garbage, 'M');
+        farthestP = farthestIndex(garbage, 'P');
+        farthestG = farthestIndex(garbage, 'G');
+        numberOfMinuteM = numberOfMinuteNeeded(travel, totalM, farthestM);
+        numberOfMinuteG = numberOfMinuteNeeded(travel, totalG, farthestG);
+        numberOfMinuteP = numberOfMinuteNeeded(travel, totalP, farthestP);
+
+
+
+        return numberOfMinuteM + numberOfMinuteG + numberOfMinuteP;
+    }
+    //Problem no.2023
+    public static int NumOfPairs(string[] nums, string target)
+    {
+        int sum = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (i != j)
+                {
+                    if ((nums[i] + nums[j]).Equals(target))
+                        sum++;
+                }
+            }
+        }
+        return sum;
+    }
+    //problem #2708
+    public static long MaxStrength(int[] nums)
+    {
+        if (nums.Length == 1 && nums[0] < 0)
+            return 0;
+        long sum = 1;
+        foreach (int i in nums)
+        {
+            sum *= i;
+        }
+        if (sum < 0)
+        {
+            Array.Sort(nums);
+            Array.Reverse(nums);
+            int minAboveZero = -1;
+            foreach (int n in nums)
+            {
+                if (n < 0)
+                {
+                    minAboveZero = n;
+                    break;
+                }
+            }
+            return sum / minAboveZero;
+        }
+        return sum;
+    }
+    //Problem #122
+    public static int MaxProfit(int[] prices)
+    {
+        int sum = 0;
+        for (int i = 0; i < prices.Length - 1; i++)
+        {
+            if (prices[i + 1] > prices[i])
+                sum += prices[i + 1] - prices[i];
+        }
+        return sum;
+    }
+}
+
+public class SolutionMath
+{
+    //Problem 2894
+    public static int DifferenceOfSums(int n, int m)
+    {
+        int divisible = 0;
+        int notDivisible = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            if (i % m != 0)
+                notDivisible += i;
+            else
+                divisible += i;
+        }
+        return notDivisible - divisible;
+    }
+
+    //Problem 2769
+    public static int TheMaximumAchievableX(int num, int t)
+    {
+        return num + (t * 2);
+    }
+    //Problem 2469
+    public static double[] ConvertTemperature(double celsius)
+    {
+        double kelvin = celsius + 273.15;
+        double fahrenheit = celsius * 1.80 + 32.00;
+        double[] convertedTemperatures = { kelvin, fahrenheit };
+        return convertedTemperatures;
+    }
+}
+
+public class Utilities
+{
+    public static string printArray<T>(T[] array)
+    {
+        return "[" + string.Join(",", array) + "]";
     }
 }
 
@@ -261,11 +423,56 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1, 1, 2, 2, 3, 4])} = True");
         Console.WriteLine($"{SolutionArray.IsPossibleToSplit([1, 1, 1, 1])} = False");
-        
+
         //Problem no.1769
         Console.WriteLine("\n\nProblem #1769");
         Console.WriteLine();
         Console.WriteLine($"[{string.Join(",", SolutionArray.MinOperations("110"))}] = [1,1,3]");
         Console.WriteLine($"[{string.Join(",", SolutionArray.MinOperations("001011"))}] = [11,8,5,4,3,4]");
+
+        //Problem no.2391
+        Console.WriteLine("\n\nProblem #2391");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.GarbageCollection(["G", "P", "GP", "GG"], [2, 4, 3])} = 21");
+        Console.WriteLine($"{SolutionArray.GarbageCollection(["MMM", "PGM", "GP"], [3, 10])} = 37");
+
+        //Problem no.2023
+        Console.WriteLine("\n\nProblem #2023");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.NumOfPairs(["777", "7", "77", "77"], "7777")} = 4");
+        Console.WriteLine($"{SolutionArray.NumOfPairs(["123", "4", "12", "34"], "1234")} = 2");
+        Console.WriteLine($"{SolutionArray.NumOfPairs(["1", "1", "1"], "11")} = 6");
+
+        //Problem no.2708
+        Console.WriteLine("\n\nProblem #2708");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.MaxStrength([3, -1, -5, 2, 5, -9])} = 1350");
+        Console.WriteLine($"{SolutionArray.MaxStrength([-4, -5, -4])} = 20");
+
+        //Problem no.122
+        Console.WriteLine("\n\nProblem #122");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.MaxProfit([7, 1, 5, 3, 6, 4])} = 7");
+        Console.WriteLine($"{SolutionArray.MaxProfit([1, 2, 3, 4, 5])} = 4");
+        Console.WriteLine($"{SolutionArray.MaxProfit([7, 6, 4, 3, 1])} = 0");
+
+        //Problem no.2894
+        Console.WriteLine("\n\nProblem #2894");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.DifferenceOfSums(10, 3)} = 19");
+        Console.WriteLine($"{SolutionMath.DifferenceOfSums(5, 6)} = 15");
+        Console.WriteLine($"{SolutionMath.DifferenceOfSums(5, 1)} = -15");
+
+        //Problem no.2769
+        Console.WriteLine("\n\nProblem #2769");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.TheMaximumAchievableX(4, 1)} = 6");
+        Console.WriteLine($"{SolutionMath.TheMaximumAchievableX(3, 2)} = 7");
+
+        //Problem no.2469
+        Console.WriteLine("\n\nProblem #2469");
+        Console.WriteLine();
+        Console.WriteLine($"{Utilities.printArray(SolutionMath.ConvertTemperature(36.50))} = [309.65000,97.70000]");
+        Console.WriteLine($"{Utilities.printArray(SolutionMath.ConvertTemperature(122.11))} = [395.26000,251.79800]");
     }
 }
