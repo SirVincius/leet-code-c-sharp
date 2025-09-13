@@ -2,6 +2,7 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 public class SolutionString
 {
@@ -354,51 +355,30 @@ public class SolutionMath
         return numberOfGoodPairs;
     }
     //Problem #3602
-    public static string ConcatHex36(int n) {
-        string decimalToHexadecimal(int number)
+public static string ConcatHex36(int n) {
+        string decimalToString(int number, int power)
         {
-            string numberInDecimal = "";
-            int highestPower16 = 0;
-            char[] conversionCharacters =
-            {
-                    '0', '1', '2', '3', '4', '5', '6', '7',
-                    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-                };
-            while (Math.Pow(16, highestPower16) <= number)
-                highestPower16++;
-            highestPower16--;
-            while (number > 0)
-            {
-                numberInDecimal = numberInDecimal + (conversionCharacters[number / (int)Math.Pow(16, highestPower16)]);
-                number %= (int)Math.Pow(16, highestPower16);
-                highestPower16--;
-            }
-            return numberInDecimal;
-        }
-
-        string decimalToHexatrigesimal(int number)
-        {
-            string numberInDecimal = "";
-            int highestPower36 = 0;
+            StringBuilder numberInDecimal = new StringBuilder("");
+            int highestPower = 0;
             char[] conversionCharacters =
             {
                     '0','1','2','3','4','5','6','7','8','9',
                     'A','B','C','D','E','F','G','H','I','J',
                     'K','L','M','N','O','P','Q','R','S','T',
                     'U','V','W','X','Y','Z'
-                };
-            while (Math.Pow(36, highestPower36) <= number)
-                highestPower36++;
-            highestPower36--;
+            };
+            while (Math.Pow(power, highestPower) <= number)
+                highestPower++;
+            highestPower--;
             while (number > 0)
             {
-                numberInDecimal = numberInDecimal + (conversionCharacters[number / (int)Math.Pow(36, highestPower36)]);
-                number %= (int)Math.Pow(36, highestPower36);
-                highestPower36--;
+                numberInDecimal.Append((conversionCharacters[number / (int)Math.Pow(power, highestPower)]));
+                number %= (int)Math.Pow(power, highestPower);
+                highestPower--;
             }
-            return numberInDecimal;
+            return numberInDecimal.ToString();
         }
-            return decimalToHexadecimal((int)Math.Pow(n, 2)) + decimalToHexatrigesimal((int)Math.Pow(n, 3));
+            return decimalToString((int)Math.Pow(n, 2), 16) + decimalToString((int)Math.Pow(n, 3), 36);
     }
 }
 
