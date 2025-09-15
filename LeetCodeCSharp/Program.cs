@@ -355,7 +355,8 @@ public class SolutionMath
         return numberOfGoodPairs;
     }
     //Problem #3602
-public static string ConcatHex36(int n) {
+    public static string ConcatHex36(int n)
+    {
         string decimalToString(int number, int power)
         {
             StringBuilder numberInDecimal = new StringBuilder("");
@@ -378,7 +379,81 @@ public static string ConcatHex36(int n) {
             }
             return numberInDecimal.ToString();
         }
-            return decimalToString((int)Math.Pow(n, 2), 16) + decimalToString((int)Math.Pow(n, 3), 36);
+        return decimalToString((int)Math.Pow(n, 2), 16) + decimalToString((int)Math.Pow(n, 3), 36);
+    }
+    //Problem #2169
+    public static int CountOperations(int num1, int num2)
+    {
+        int numberOfOperation = 0;
+        while (num1 > 0 && num2 > 0)
+        {
+            if (num1 > num2)
+                num1 -= num2;
+            else
+                num2 -= num1;
+            numberOfOperation++;
+        }
+        return numberOfOperation;
+    }
+
+    //Problem #1518
+    public static int NumWaterBottles(int numBottles, int numExchange)
+    {
+        int totalNumberOfBottles = 0;
+        int numFullBottles = numBottles;
+        int numEmptyBottles = 0;
+        while (numBottles >= numExchange)
+        {
+            totalNumberOfBottles += numFullBottles;
+            numEmptyBottles = numFullBottles + numEmptyBottles;
+            numFullBottles = numEmptyBottles / numExchange;
+            numEmptyBottles = numEmptyBottles % numExchange;
+            numBottles = numFullBottles + numEmptyBottles;
+        }
+        totalNumberOfBottles += numFullBottles;
+        return totalNumberOfBottles;
+    }
+    //Problem 13
+    public static int RomanToInt(string s)
+    {
+
+        //TERNARY OPERATOR CHAINING JUST FOR FUN
+        int getRomanSymbolValue (char c)
+        {
+            return c == 'I' ? 1 :
+                    c == 'V' ? 5 :
+                    c == 'X' ? 10 :
+                    c == 'L' ? 50 :
+                    c == 'C' ? 100 :
+                    c == 'D' ? 500 :
+                    1000;
+        }
+
+        int sum = 0;
+        char tempLetter = s[s.Length-1];
+        int currentValue = 0;
+        int tempSum = getRomanSymbolValue(tempLetter);
+
+        for (int i = s.Length - 2; i >= 0; i--)
+        {
+            currentValue = getRomanSymbolValue(s[i]);
+            if (currentValue < getRomanSymbolValue(tempLetter))
+            {
+                tempSum -= currentValue;
+            }
+            if (currentValue == getRomanSymbolValue(tempLetter))
+            {
+                tempSum += currentValue;
+            }
+            if (currentValue > getRomanSymbolValue(tempLetter))
+            {
+                sum += tempSum;
+                tempSum = currentValue;
+            }
+            Console.WriteLine(sum);
+            tempLetter = s[i];
+        }
+        return sum + tempSum;
     }
 }
 
@@ -530,6 +605,24 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{SolutionMath.ConcatHex36(13)} = 'A91P1'");
         Console.WriteLine($"{SolutionMath.ConcatHex36(36)} = '5101000'");
-        
+
+        //Problem no.2169
+        Console.WriteLine("\n\nProblem #2169");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.CountOperations(2, 3)} = 3");
+        Console.WriteLine($"{SolutionMath.CountOperations(10, 10)} = 1");
+
+        //Problem no.1518
+        Console.WriteLine("\n\nProblem #1518");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.NumWaterBottles(9, 3)} = 13");
+        Console.WriteLine($"{SolutionMath.NumWaterBottles(15, 4)} = 19");
+
+        //Problem no.13
+        Console.WriteLine("\n\nProblem #13");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.RomanToInt("III")} = 3");
+        Console.WriteLine($"{SolutionMath.RomanToInt("LVIII")} = 58");
+        Console.WriteLine($"{SolutionMath.RomanToInt("MCMXCIV")} = 1994");
     }
 }
