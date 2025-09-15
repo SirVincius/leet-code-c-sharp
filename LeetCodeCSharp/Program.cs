@@ -3,6 +3,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Microsoft.VisualBasic;
 
 public class SolutionString
 {
@@ -308,6 +309,24 @@ public class SolutionArray
         }
         return sum;
     }
+    //Problem #242
+    public static bool IsAnagram(string s, string t)
+    {
+        if (s.Length != t.Length)
+            return false;
+
+        char[] sortedS = s.ToCharArray();
+        Array.Sort(sortedS);
+        char[] sortedT = t.ToCharArray();
+        Array.Sort(sortedT);
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (sortedS[i] != sortedT[i])
+                return false;
+        }
+        return true;
+    }
 }
 
 public class SolutionMath
@@ -418,7 +437,7 @@ public class SolutionMath
     {
 
         //TERNARY OPERATOR CHAINING JUST FOR FUN
-        int getRomanSymbolValue (char c)
+        int getRomanSymbolValue(char c)
         {
             return c == 'I' ? 1 :
                     c == 'V' ? 5 :
@@ -430,7 +449,7 @@ public class SolutionMath
         }
 
         int sum = 0;
-        char tempLetter = s[s.Length-1];
+        char tempLetter = s[s.Length - 1];
         int currentValue = 0;
         int tempSum = getRomanSymbolValue(tempLetter);
 
@@ -450,10 +469,61 @@ public class SolutionMath
                 sum += tempSum;
                 tempSum = currentValue;
             }
-            Console.WriteLine(sum);
             tempLetter = s[i];
         }
         return sum + tempSum;
+    }
+    //Problem #2481
+    public static int NumberOfCuts(int n)
+    {
+        return n == 0 ? 0 : n == 1 ? 0 : n % 2 == 0 ? n / 2 : n;
+    }
+}
+
+public class SolutionHashMap
+{
+    public static int MaxFreqSum(string s)
+    {
+        Dictionary<char, int> vowelsFrequency = new Dictionary<char, int>();
+        Dictionary<char, int> consonantsFrequency = new Dictionary<char, int>();
+
+        int vowelMax = 0;
+        int consonantMax = 0;
+
+        char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+        char[] consonants = {
+            'b','c','d','f','g','h','j','k','l','m',
+            'n','p','q','r','s','t','v','w','x','y','z'
+        };
+
+        //Building dictionnaries with values set to 0
+        foreach (char vowel in vowels)
+            vowelsFrequency[vowel] = 0;
+        foreach (char consonant in consonants)
+            consonantsFrequency[consonant] = 0;
+
+        foreach (char letter in s)
+        {
+            if (vowelsFrequency.ContainsKey(letter))
+            {
+                vowelsFrequency[letter]++;
+            }
+            else
+            {
+                consonantsFrequency[letter]++;
+            }
+        }
+        foreach (var key in vowelsFrequency)
+        {
+            if (key.Value > vowelMax)
+                vowelMax = key.Value;
+        }
+        foreach (var key in consonantsFrequency)
+        {
+            if (key.Value > consonantMax)
+                consonantMax = key.Value;
+        }
+        return vowelMax + consonantMax;
     }
 }
 
@@ -624,5 +694,24 @@ class Program
         Console.WriteLine($"{SolutionMath.RomanToInt("III")} = 3");
         Console.WriteLine($"{SolutionMath.RomanToInt("LVIII")} = 58");
         Console.WriteLine($"{SolutionMath.RomanToInt("MCMXCIV")} = 1994");
+
+
+        //Problem no.2481
+        Console.WriteLine("\n\nProblem #2481");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionMath.NumberOfCuts(4)} = 2");
+        Console.WriteLine($"{SolutionMath.NumberOfCuts(3)} = 3");
+
+        //Problem no.3541
+        Console.WriteLine("\n\nProblem #3541");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionHashMap.MaxFreqSum("successes")} = 6");
+        Console.WriteLine($"{SolutionHashMap.MaxFreqSum("aeiaeia")} = 3");
+
+        //Problem no.242
+        Console.WriteLine("\n\nProblem #242");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionArray.IsAnagram("anagram", "nagaram")} = True");
+        Console.WriteLine($"{SolutionArray.IsAnagram("rat", "car")} = False");
     }
 }
