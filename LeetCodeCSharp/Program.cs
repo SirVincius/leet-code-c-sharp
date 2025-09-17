@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -525,6 +526,73 @@ public class SolutionHashMap
         }
         return vowelMax + consonantMax;
     }
+
+    public static IList<IList<string>> GroupAnagrams(string[] strs)
+    {
+        string sortString(string s)
+        {
+            char[] sToArray = s.ToCharArray();
+            Array.Sort(sToArray);
+            return new string(sToArray);
+        }
+
+        Dictionary<string, List<string>> wordMapping = new Dictionary<string, List<string>>();
+
+        List<IList<string>> groupedAnagrams = new List<IList<string>>();
+
+        foreach (string s in strs)
+        {
+            string sortedS = sortString(s);
+            if (!wordMapping.ContainsKey(sortedS))
+            {
+                wordMapping[sortedS] = new List<string>();
+            }
+            wordMapping[sortedS].Add(s);
+        }
+
+        foreach (var key in wordMapping)
+        {
+            groupedAnagrams.Add(key.Value);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append("[");
+        for (int i = 0; i < groupedAnagrams.Count; i++)
+        {
+
+            sb.Append("[" + string.Join(",", groupedAnagrams[i]) + "]");
+        }
+        sb.Append("]");
+        Console.WriteLine(sb.ToString());
+        return groupedAnagrams;
+    }
+    //Problem #1726
+    public static int TupleSameProduct(int[] nums)
+    {
+        int numberOfEqualTuples = 0;
+        Dictionary<(int, int), int> tupleToValue = new Dictionary<(int, int), int>();
+        foreach (int i1 in nums)
+        {
+            foreach (int i2 in nums)
+            {
+                if (i1 != i2)
+                {
+                    tupleToValue[(i1, i2)] = i1 * i2;
+                }
+            }
+        }
+
+        foreach (var key1 in tupleToValue)
+        {
+            foreach (var key2 in tupleToValue)
+            {
+                int[] values = { key1.Key.Item1, key1.Key.Item2, key2.Key.Item1, key2.Key.Item2 };
+                if (!key1.Equals(key2) && (values.Distinct().Count() == values.Count()) && (key1.Value == key2.Value))
+                    numberOfEqualTuples++;
+            }
+        }
+        return numberOfEqualTuples;
+    }
 }
 
 public class Utilities
@@ -713,5 +781,16 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{SolutionArray.IsAnagram("anagram", "nagaram")} = True");
         Console.WriteLine($"{SolutionArray.IsAnagram("rat", "car")} = False");
+
+        //Problem no.49
+        Console.WriteLine("\n\nProblem #49");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionHashMap.GroupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])} = [[bat],[nat,tan],[ate,eat,tea]]");
+
+        //Problem no.1726
+        Console.WriteLine("\n\nProblem #1726");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionHashMap.TupleSameProduct([2, 3, 4, 6])} = 8");
+        Console.WriteLine($"{SolutionHashMap.TupleSameProduct([1,2,4,5,10])} = 16");
     }
 }
