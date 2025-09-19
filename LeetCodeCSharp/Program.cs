@@ -595,6 +595,23 @@ public class SolutionHashMap
     }
 }
 
+public class SolutionBinarySearch
+{
+    public static int[] Intersection(int[] nums1, int[] nums2)
+    {
+        HashSet<int> ints1 = new HashSet<int>(nums1);
+        int[] ints2 = nums2.Distinct().ToArray();
+
+        List<int> intersection = new List<int>();
+        foreach (int i in ints2)
+        {
+            if (ints1.Contains(i))
+                intersection.Add(i);
+        }
+        return intersection.ToArray();
+    }
+}
+
 public class Utilities
 {
     public static string printArray<T>(T[] array)
@@ -791,6 +808,12 @@ class Program
         Console.WriteLine("\n\nProblem #1726");
         Console.WriteLine();
         Console.WriteLine($"{SolutionHashMap.TupleSameProduct([2, 3, 4, 6])} = 8");
-        Console.WriteLine($"{SolutionHashMap.TupleSameProduct([1,2,4,5,10])} = 16");
+        Console.WriteLine($"{SolutionHashMap.TupleSameProduct([1, 2, 4, 5, 10])} = 16");
+        
+        //Problem no.349
+        Console.WriteLine("\n\nProblem #349");
+        Console.WriteLine();
+        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([1,2,2,1], [2,2]))} = [2]");
+        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([4,9,5], [9,4,9,8,4]))} = [9,4]");
     }
 }
