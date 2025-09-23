@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
+using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -610,7 +612,93 @@ public class SolutionBinarySearch
         }
         return intersection.ToArray();
     }
+
+    public static int MaximumCount(int[] nums)
+    {
+        int low = 0;
+        int high = nums.Length - 1;
+        int mid;
+
+        if (nums[low] > 0 || nums[high] < 0)
+            return nums.Length;
+
+        while (true)
+        {
+            mid = low + (high = low) / 2;
+            if (mid > 0)
+            {
+                high = mid;
+            }
+        }
+    }
+
+    public static int NumOfUnplacedFruits(int[] fruits, int[] baskets)
+    {
+        int unplacedFruit = 0;
+        for (int i = 0; i < fruits.Length; i++)
+        {
+            for (int j = 0; j < baskets.Length; j++)
+            {
+                if (baskets[j] >= fruits[i])
+                {
+                    baskets[j] = 0;
+                    fruits[i] = 0;
+                    break;
+                }
+            }
+        }
+        foreach (int fruit in fruits)
+        {
+            if (!(fruit == 0))
+                unplacedFruit++;
+        }
+        return unplacedFruit;
+    }
+
+    public static int MissingNumber(int[] nums)
+    {
+        int temp = 0;
+        Array.Resize(ref nums, nums.Length + 1);
+        nums[nums.Length - 1] = -1;
+        for (int i = 0; i < nums.Length - 1; i++)
+        {
+            temp = nums[nums[i]];
+            nums[nums[i]] = nums[i];
+            nums[i] = temp;
+        }
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] != i)
+            {
+                temp = i;
+            }
+        }
+        return temp;
+    }
 }
+
+public class SolutionNotLeetCode
+    {
+        public static int FindNumberBinarySearch(int[] nums, int target)
+        {
+            int min = 0;
+            int max = nums.Length - 1;
+            int mid;
+
+            while (min <= max)
+            {
+                mid = min + (max - min) / 2;
+                if (nums[mid] == target)
+                    return mid;
+                if (nums[mid] < target)
+                    min = mid + 1;
+                else
+                    max = mid -1;
+            }
+            return -1;
+        }
+    }
 
 public class Utilities
 {
@@ -809,11 +897,33 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"{SolutionHashMap.TupleSameProduct([2, 3, 4, 6])} = 8");
         Console.WriteLine($"{SolutionHashMap.TupleSameProduct([1, 2, 4, 5, 10])} = 16");
-        
+
         //Problem no.349
         Console.WriteLine("\n\nProblem #349");
         Console.WriteLine();
-        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([1,2,2,1], [2,2]))} = [2]");
-        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([4,9,5], [9,4,9,8,4]))} = [9,4]");
+        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([1, 2, 2, 1], [2, 2]))} = [2]");
+        Console.WriteLine($"{Utilities.printArray(SolutionBinarySearch.Intersection([4, 9, 5], [9, 4, 9, 8, 4]))} = [9,4]");
+
+        //Problem no.3477
+        Console.WriteLine("\n\nProblem #3477");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionBinarySearch.NumOfUnplacedFruits([4, 2, 5], [3, 5, 4])} = 1");
+        Console.WriteLine($"{SolutionBinarySearch.NumOfUnplacedFruits([3, 6, 1], [6, 4, 7])} = 0");
+
+        //Problem no.268
+        Console.WriteLine("\n\nProblem #268");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionBinarySearch.MissingNumber([3,0,1])} = 2");
+        Console.WriteLine($"{SolutionBinarySearch.MissingNumber([1,2])} = 2");
+        Console.WriteLine($"{SolutionBinarySearch.MissingNumber([9,6,4,2,3,5,7,0,1])} = 8");
+
+        //----------------------------------------------------------------
+        //Not LeetCode
+        Console.WriteLine("\n\nProblem #V1");
+        Console.WriteLine();
+        Console.WriteLine($"{SolutionNotLeetCode.FindNumberBinarySearch([], -7)} = 0");
+        Console.WriteLine($"{SolutionNotLeetCode.FindNumberBinarySearch([-7, 1, 2, 8, 12, 23, 127], -7)} = 0");
+        Console.WriteLine($"{SolutionNotLeetCode.FindNumberBinarySearch([-7, 1, 2, 8, 12, 23, 127], 12)} = 4");
+        Console.WriteLine($"{SolutionNotLeetCode.FindNumberBinarySearch([-7, 1, 2, 8, 12, 23, 127], 127)} = 6");
     }
 }
